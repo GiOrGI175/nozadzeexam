@@ -59,14 +59,18 @@ const QuizPage = () => {
     }
 
     const nextQuestion = currentQuestion + 1;
-    setCurrentQuestion(nextQuestion);
+    if (quizQuestions.length === currentQuestion + 1) {
+      setIsComplated(true);
+    } else {
+      setCurrentQuestion(nextQuestion);
+    }
   };
 
   // შექმენით ფუნქცია რომელიც განაახლებს ქვიზის სტატუსს და დასრულებს ქვიზს
   const restartQuiz = (): void => {
-    if (quizQuestions.length === currentQuestion) {
-      setIsComplated(true);
-    }
+    setIsComplated(false);
+    setScore(0);
+    setCurrentQuestion(0);
   };
 
   return (
@@ -77,7 +81,7 @@ const QuizPage = () => {
           <>
             <h1 className='text-2xl font-bold mb-4'>Quiz Completed!</h1>
             <p className='text-lg mb-6'>
-              Your Score:{' '}
+              Your Score:{score}
               <span className='font-semibold'> Dynamic Score Here</span> /{' '}
               {quizQuestions.length}
             </p>
@@ -93,10 +97,10 @@ const QuizPage = () => {
         {!isCompleted && (
           <>
             <p className='text-gray-600 mb-4'>
-              Question {score} of {quizQuestions.length}
+              Question {currentQuestion} of {quizQuestions.length}
             </p>
             <h1 className='text-2xl font-bold mb-4'>
-              "ქვიზიდან კითხვა გამოჩნდეს აქ"
+              {quizQuestions[currentQuestion].question}
             </h1>
             <div className='space-y-4'>
               {/* აქ სტატიკურად  ინდექსად 0 ელემენტის 4 კითხვა იმაპება ჩვენ გვინდა ყოველ შემდეგ კითხვაზე ახლიდან დაიმაპოს*/}
